@@ -4,10 +4,13 @@ Microscope Measurement plugin for FIJI
 This set of plugins provides a quick way to save measurement calibrations for various microscopes/objectives in a simple text file.
 
 You can then choose any of your prior calibrations to be applied to an open image (or all open images), as so: 
-[Choose Calibration window][MMT-Choose-Cal-Pic]
+
+![Choose Calibration window][MMT-Choose-Cal-Pic]
+
 
 The "Draw Measurement" plugin then allows you to annotate a line ROI with the calibrated measurement length, as so: 
-[Annotation with Line][MMT-Annot-Line-Pic]
+
+![Annotation with Line][MMT-Annot-Line-Pic]
 
 
 Three files are included:
