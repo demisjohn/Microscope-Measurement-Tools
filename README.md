@@ -1,7 +1,7 @@
 # Microscope-Measurement-Tools
-Microscope Measurement plugin for FIJI
+Microscope Measurement plugin for [FIJI](http://fiji.sc).
 
-This set of plugins provides a quick way to save measurement calibrations for various microscopes/objectives in a simple text file.
+This set of [FIJI](http://fiji.sc) plugins provides a quick way to save measurement calibrations for various microscopes/objectives in a simple text file.
 
 You can then choose any of your prior calibrations to be applied to an open image (or all open images), as so: 
 
