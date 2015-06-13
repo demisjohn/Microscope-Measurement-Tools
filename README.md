@@ -16,7 +16,7 @@ The "Draw Measurement" plugin then allows you to annotate a line ROI with the ca
 Three files are included:
 
 + **Choose_Microscope_Calibration.py**
-  + *Opens the "Choose Calibration" window, for setting the measurement scale to a reconfigured value.*
+  + *Opens the "Choose Calibration" window, for setting the measurement scale to a preconfigured value.*
 + **Draw_Measurement_-_Line.py**
   + *Converts a Line ROI into a drawn annotation with the measurement length indicated.*
 + **Microscope_Calibrations_user_settings.py**
