@@ -75,20 +75,32 @@ def run():
     
     
     
-    # set ROI params from settings:
-    roi.setStrokeWidth( sets.linethickness )
-    roi.setStrokeColor(  jColor(float(sets.linecolor[0]), float(sets.linecolor[1]), float(sets.linecolor[2]), float(sets.linecolor[3]))  )
-    
-    #roi.drawPixels( ip )   # draw along the ROI - only draws outline unfortunately
-    ip.drawRoi(roi)     # draw the ROI on the image
-    
-
-    #imp.updateAndDraw()     #update the image
     
     p1 = [  int(roi.x1d),  int(roi.y1d)  ]    # point 1 (x,y)
     p2 = [  int(roi.x2d),  int(roi.y2d)  ]    # point 2
     print "Line Points: p1=", p1, " & p2=", p2
     pm = midpoint(p1, p2)   # get midpoint coord
+    
+    
+    # set ROI params from settings:
+    ''' Using new method - used ip.drawLine instead of roi.draw, since roi.draw didn't always apply the line thickness.  Would be best to use teh ROI method, in case other types of ROI's could be annotated.
+    
+    roi.setStrokeWidth( sets.linethickness )
+    roi.setStrokeColor(  jColor(float(sets.linecolor[0]), float(sets.linecolor[1]), float(sets.linecolor[2]), float(sets.linecolor[3]))  )
+    
+    #roi.drawPixels( ip )   # draw along the ROI - only draws outline unfortunately
+    ip.drawRoi(roi)     # draw the ROI on the image
+    '''
+    
+    ip.setLineWidth(  int(sets.linethickness)  )      
+    ip.setColor(  jColor(float(sets.linecolor[0]), float(sets.linecolor[1]), float(sets.linecolor[2]), float(sets.linecolor[3]))  )
+    
+    #ip.draw(roi)   # changed to ip.drawLine()
+    
+    ip.drawLine( int(roi.x1d),  int(roi.y1d), int(roi.x2d),  int(roi.y2d)  )
+
+    #imp.updateAndDraw()     #update the image
+    
     
     unit = imp.getCalibration().getUnit().encode('utf8')    # get the unit as UTF-8 (for \mu)
     if unit != 'pixel': unit=unit[1:]  # strip weird char at start
@@ -97,7 +109,7 @@ def run():
     # format of measurement text (eg. 3 decimal points):
     lenstr = "%0.3f" % roi.getLength() + " %s" % (unit)  # string to print as length
     print "Line length= %s" % lenstr
-    print "x,y=", p2[0], p2[1]
+    #print "x,y=", p2[0], p2[1]
     
     #ip.moveTo(p2[0]-ip.getStringWidth(lenstr), p2[1]);  # move the drawing 'pen'
     if sets.texttoleft:

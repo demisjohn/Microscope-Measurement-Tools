@@ -18,18 +18,18 @@ Microscope scaling/pixel-size calibration settings.
 """
 
 # The names of the microscope calibrations (shows up as the radio button names):
-names = ['FluoroScope 5x', 'FluoroScope 10x', 'FluoroScope 20x', 'FluoroScope 100x', 'FluoroScope 200x']
+names = ['FluoroScope 20x', 'FluoroScope 50x', 'FluoroScope 100x', 'FluoroScope 150x']
 
 
 # The 'pixel-per-unit' obtained from the "Set Scale..." Dialog, for each named calibration above:
-cals = [0.5, 1.0, 3.0, 5.0, 10.0]
+cals = [1.81,  4.525,  9.0667,  13.5333]
 #   This is just 1/pixel_width, in case you were wondering.
 
 
-# units for each calibration:
-units = ['um','um','um','um','um']
+# length-units for each calibration:
+#units = ['um','um','um','um','um']
 # for identical units for all cals, use the following line instead (uncomment):
-#units = ['um'    for x in cals]    # list-comprehension with constant `um`
+units = ['um'    for x in cals]    # list-comprehension with constant `um`
 
 
 # Aspect Ratio for each calibration (default should be 1.0 )
@@ -60,12 +60,12 @@ Colors are specified as:
 """
 
 linethickness = 5.0     # in pixels
-linecolor = [ 0, 0.8, 0,   0.75]     
+linecolor = [ 0, 0.7, 0,   1.0]     
 textsize = 30           # text height in pixels, I think
 textcolor =     [ 0, 0.8, 0,   1.0]
-textbackgroundcolor = [ 0, 0, 0,   0.5]       # background color behind text.
+textbackgroundcolor = [ 0, 0, 0,   0.6]       # background color behind text.
 #textbackgroundcolor = None      # set to None for no background - uncomment this line
-texttoleft = True      # put text on right side of last point?
+texttoleft = True      # put text on left or right side of last point?
 
 
 
@@ -86,7 +86,7 @@ def run():
     from ij.gui import GenericDialog
     
     gd = GenericDialog("Microscope_Calibrations_user_settings.py")
-    gd.addMessage("This file is only for setting the microscope calibrations  and settings for the plugins 'Microscope Measurement Tools'.\nNothing is done when this settings file is run by itself.\nPlease open this file in a text editor instead, to edit the calibrations.\n  \n"  +  \
+    gd.addMessage("This file is only for setting the microscope calibrations and settings for the plugins 'Microscope Measurement Tools'.\nNothing is done when this settings file is run by itself.\nPlease open this file in a text editor instead, to edit the calibrations.\n  \n"  +  \
     "The file should reside in a path like the following\n"  +  \
     "Fiji.app/plugins/Scripts/Analyze/Microscope Measurement Tools/Microscope_Calibrations_user_settings.py\n  "  +  "\n" +  \
     "Changes to the settings file are not automatically picked up by Fiji.  The workaround is to\n  1) Quit Fiji.\n  2) Delete the '$py.class' file 'Microscope_Calibrations_user_settings$py.class'\n  3) Open Fiji.  Make sure the new settings show up in 'Choose Microscope Calibration'."  )
