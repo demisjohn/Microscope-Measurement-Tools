@@ -123,7 +123,7 @@ def uScopeCalDialog(cal):
     # Radio Buttons:
     CalStr = []
     for ii, name in enumerate(cal.names):
-        CalStr.append(  name + "      (%s"%cal.cals[ii] + " %s/pixel)"%cal.units[ii]  )
+        CalStr.append(  name + "      (%s"%cal.cals[ii] + " pixels/%s)"%cal.units[ii]  )
     
     '''if > 20 cals, use dropdown list, otherwise use radio buttons'''
     if len(cal.names) > 20:
