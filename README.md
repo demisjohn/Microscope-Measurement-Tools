@@ -20,7 +20,7 @@ Three files are included:
 + **Draw_Measurement_-_Line.py**
   + *Converts a Line ROI into a drawn annotation with the measurement length indicated.*
 + **Microscope_Calibrations_user_settings.py**
-  + *Settings file that contains your pre-configured scale calibrations, along with settings for drawing annotations (background/text color etc.)*
+  + *User-editable Settings file that contains your pre-configured scale calibrations, along with settings for drawing annotations (background/text color etc.)*
 
 
 
