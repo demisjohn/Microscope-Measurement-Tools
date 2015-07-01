@@ -113,8 +113,21 @@ def run():
     print "Line length= %s" % lenstr
     #print "x,y=", p2[0], p2[1]
     
+    '''determine position of text from coords'''
+    # y-coord:
+    if p2[1] > p1[1]:
+        posstr = 'bottom'
+    else:
+        posstr = 'top'
     
-    drawText( lenstr, p2[0], p2[1], position='top left'  )
+    # x-coord:
+    if p2[0] > p1[0]:
+        posstr += ' right'
+    else:
+        posstr += ' left'
+    
+    
+    drawText( lenstr, p2[0], p2[1], position=posstr  )
     
     imp.updateAndDraw()     #update the image
     
