@@ -102,6 +102,8 @@ def run():
     #imp.updateAndDraw()     #update the image
     
     
+    
+    '''Draw text annotation'''
     unit = imp.getCalibration().getUnit().encode('utf8')    # get the unit as UTF-8 (for \mu)
     if unit != 'pixel': unit=unit[1:]  # strip weird char at start
     
@@ -111,24 +113,8 @@ def run():
     print "Line length= %s" % lenstr
     #print "x,y=", p2[0], p2[1]
     
-    #ip.moveTo(p2[0]-ip.getStringWidth(lenstr), p2[1]);  # move the drawing 'pen'
-    if sets.texttoleft:
-        x=p2[0]-ip.getStringWidth(lenstr)
-    else:
-        x = p2[0]
-    y=p2[1]
     
-    
-    # set font
-    ip.setFont(   jFont('SansSerif', 0, sets.textsize)   )
-    ip.setColor(    jColor(  float(sets.textcolor[0]), float(sets.textcolor[1]), float(sets.textcolor[2]), float(sets.textcolor[3])  )   )
-    
-    
-    if sets.textbackgroundcolor:
-        ip.drawString( lenstr, x, y, jColor(  float(sets.textbackgroundcolor[0]), float(sets.textbackgroundcolor[1]), float(sets.textbackgroundcolor[2]), float(sets.textbackgroundcolor[3])  ) )     # write the text w/ BG color
-    else:
-        ip.drawString( lenstr, x, y )     # write the text
-    
+    drawText( lenstr, p2[0], p2[1], position='top left'  )
     
     imp.updateAndDraw()     #update the image
     
@@ -170,6 +156,114 @@ def midpoint( p1, p2 ):
 
 
 
+def drawText( text, x, y, position='bottom right' ):
+    '''Draw a text string at the specified coordinates, ensuring text doesn't go over the edge of the image.
+    
+    Parameters:
+    -----------
+    text : string
+        The text string to write on the image.
+    
+    x, y : int
+        The coordinates at which to draw the text.
+    
+    position : { 'bottom right', 'top right', 'top left', 'bottom left' }, case-insensitive, optional
+        Where to draw the text, with respect to the coordinates given.
+        Synonyms for 'bottom right' are 'br'.
+        Synonyms for 'top right' are 'tr'.
+        Synonyms for 'bottom left' are 'bl'.
+        Synonyms for 'top left' are 'tl'.
+    '''
+    print "drawText(): initial (x,y)=(%i,%i)"%( x, y )
+    
+    
+    # microscope settings should be in the file `Microscope_Calibrations_user_settings.py`:
+    import Microscope_Calibrations_user_settings as sets      # imports settings under `sets.linecolor`, `sets.linethickness` etc.
+    
+    ip = IJ.getProcessor()  # Image Processor
+    imp = IJ.getImage()     # get the current Image, which is an ImagePlus object
+    
+    
+    '''Acquire arguments'''
+    position = position.strip().lower()
+    if position == 'bottom right' or position == 'br':
+        pos = 'br'
+    elif position == 'bottom left' or position == 'bl':
+        pos = 'bl'
+    elif position == 'top left' or position == 'tl':
+        pos = 'tl'
+    elif position == 'top right' or position == 'tr':
+        pos = 'tr'
+    else:
+        raise ValueError( 'drawText(): Invalid `position` argument: "%s"'%(position) )
+    
+    
+    '''Setup text annotation'''
+    unit = imp.getCalibration().getUnit().encode('utf8')    # get the unit as UTF-8 (for \mu)
+    if unit != 'pixel': unit=unit[1:]  # strip weird char at start
+    
+    # set font:
+    ip.setFont(   jFont('SansSerif', 0, sets.textsize)   )
+    ip.setColor(    jColor(  float(sets.textcolor[0]), float(sets.textcolor[1]), float(sets.textcolor[2]), float(sets.textcolor[3])  )   )
+    
+    
+    
+    
+    
+    '''determine position'''
+    margin = 6      # space in pixels away from edge of image
+    spacer = 3      # space in pixels to add between point & text
+    strw = ip.getStringWidth(text)
+    strh = ip.getFontMetrics().getHeight()
+    imgw = ip.getWidth()
+    imgh = ip.getHeight()
+    
+    '''
+    print "strw =", strw
+    print "strh =", strh
+    print "imgw =", imgw
+    print "imgh =", imgh
+    '''
+    
+    
+    # set coords (x,y) based on `position` argument
+    ''' By default, text is horizontally centered at point (x), and vertically above the point (y).'''
 
-run()       # Run the script function!
+    if pos[0] == 'b':
+        y = y + spacer + strh   # moves down 
+    elif pos[0] == 't':
+        y = y - spacer
+    
+    if pos[1] == 'r':
+        x = x + spacer     # moves right
+    elif pos[1] == 'l':
+        x = x - spacer - int(strw)
+    
+    print "drawText(): %s "%(pos) + "(x,y)=(%i,%i)"%( x, y )
+    
+    '''Correct for edge of image'''
+    if   y - strh < 0:
+        y = 0 + strh + margin
+    elif   y > imgh :
+        y = imgh - margin
+    
+    if   (x) < 0:
+        x = 0 + margin
+    elif  (x + strw) > imgw:
+        x = imgw - strw - margin
+    
+    print "drawText(): final (x,y)=(%i,%i)"%( x, y )
+    
+    
+    if sets.textbackgroundcolor:
+        ip.drawString( text, x, y, jColor(  float(sets.textbackgroundcolor[0]), float(sets.textbackgroundcolor[1]), float(sets.textbackgroundcolor[2]), float(sets.textbackgroundcolor[3])  ) )     # write the text w/ BG color
+    else:
+        ip.drawString( text, x, y )     # write the text alone
+
+    imp.updateAndDraw()     #update the image
+#end drawText()
+
+
+
+run()       # Finally, Run the script function!
 

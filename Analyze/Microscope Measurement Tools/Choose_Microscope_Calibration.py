@@ -9,7 +9,7 @@ User can optionally apply the scaling to all open images, and/or run the "Scale 
 Based off Microscope_Scale.java & Correct_3d_drift.py
 
 
-v1.1
+v1.2
 Demis D. John, Praevium Research Inc., 2015-05-29
 '''
 
