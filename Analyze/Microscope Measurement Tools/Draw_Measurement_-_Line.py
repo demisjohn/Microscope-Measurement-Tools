@@ -105,7 +105,8 @@ def run():
     
     '''Draw text annotation'''
     unit = imp.getCalibration().getUnit().encode('utf8')    # get the unit as UTF-8 (for \mu)
-    if unit != 'pixel': unit=unit[1:]  # strip weird char at start
+    print "Draw_Meas(): Unit (raw) = `", unit,"`", type(unit), 
+    if unit[0] == u'\xc2': unit=unit[1:]  # strip weird char at start of \mu
     
     
     # format of measurement text (eg. 3 decimal points):
@@ -134,9 +135,9 @@ def run():
     # to do:
     #   Add dialogue for user to alter draw options?  Or just from settings file?
     
-    
-    
 #end run()
+
+
 """ java.awt.Font: Font(String name, int style (0=plain?), int size)    """
 """
 class ImageProcessor:
@@ -170,7 +171,7 @@ def midpoint( p1, p2 ):
 
 
 def drawText( text, x, y, position='bottom right' ):
-    '''Draw a text string at the specified coordinates, ensuring text doesn't go over the edge of the image.
+    '''Draw a text string at the specified coordinates & relative position, ensuring text doesn't go over the edge of the image.
     
     Parameters:
     -----------
@@ -208,13 +209,11 @@ def drawText( text, x, y, position='bottom right' ):
     elif position == 'top right' or position == 'tr':
         pos = 'tr'
     else:
-        raise ValueError( 'drawText(): Invalid `position` argument: "%s"'%(position) )
+        raise ValueError( 'drawText(): Invalid `position` argument: "%s".'%(position) )
     
     
     '''Setup text annotation'''
-    unit = imp.getCalibration().getUnit().encode('utf8')    # get the unit as UTF-8 (for \mu)
-    if unit != 'pixel': unit=unit[1:]  # strip weird char at start
-    
+        
     # set font:
     ip.setFont(   jFont('SansSerif', 0, sets.textsize)   )
     ip.setColor(    jColor(  float(sets.textcolor[0]), float(sets.textcolor[1]), float(sets.textcolor[2]), float(sets.textcolor[3])  )   )
@@ -223,9 +222,9 @@ def drawText( text, x, y, position='bottom right' ):
     
     
     
-    '''determine position'''
+    '''determine text position'''
     margin = 6      # space in pixels away from edge of image
-    spacer = 3      # space in pixels to add between point & text
+    spacer = 4      # space in pixels to add between point & text
     strw = ip.getStringWidth(text)
     strh = ip.getFontMetrics().getHeight()
     imgw = ip.getWidth()
