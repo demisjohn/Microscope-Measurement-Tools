@@ -21,7 +21,7 @@ Three files are included:
   + *Converts a Line ROI into a drawn annotation with the measurement length indicated.*
 + **Microscope_Calibrations_user_settings.py**
   + *User-editable Settings file that contains your pre-configured scale calibrations, along with settings for drawing annotations (background/text color etc.)*
-
+  + Please see the Instructions PDF for detailed instructions on setting up your settings file with Calibrations.
 
 
 [MMT-Choose-Cal-Pic]: http://fiji.sc/_images/c/cd/Microscope_Meas_Tools_-_Choose_Calibration_01.png
