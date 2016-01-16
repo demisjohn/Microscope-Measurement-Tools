@@ -13,6 +13,11 @@ The "Draw Measurement" plugin then allows you to annotate a line ROI with the ca
 ![Annotation with Line][MMT-Annot-Line-Pic]
 
 
+## Installation
+Download the most recent [Release from Github](https://github.com/demisjohn/Microscope-Measurement-Tools/releases).
+
+View the [Instructions PDF on Github](https://github.com/demisjohn/Microscope-Measurement-Tools/blob/master/Microscope%20Meas.%20-%20Calibration%20instructions.pdf) for the Installation & Calibration procedure.
+
 Three files are included:
 
 + **Choose_Microscope_Calibration.py**
