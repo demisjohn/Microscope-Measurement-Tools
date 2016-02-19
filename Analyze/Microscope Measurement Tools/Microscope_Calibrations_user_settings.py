@@ -18,11 +18,23 @@ Microscope scaling/pixel-size calibration settings.
 """
 
 # The names of the microscope calibrations (shows up as the radio button names):
-names = ['FluoroScope 20x', 'FluoroScope 50x', 'FluoroScope 100x', 'FluoroScope 150x']
+names = [
+        'FluoroScope 5x', 
+        'FluoroScope 20x', 
+        'FluoroScope 50x', 
+        'FluoroScope 100x', 
+        'FluoroScope 150x',
+        ]
 
 
 # The 'pixel-per-unit' obtained from the "Set Scale..." Dialog, for each named calibration above:
-cals = [1.81,  4.525,  9.0667,  13.5333]
+cals = [
+        0.9058,
+        1.81,  
+        4.525,  
+        9.0667,  
+        13.5333,
+        ]
 #   This is just 1/pixel_width, in case you were wondering.
 
 
