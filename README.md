@@ -1,14 +1,14 @@
 # Microscope-Measurement-Tools
 Microscope Measurement plugin for [FIJI](http://fiji.sc).
 
-This set of [FIJI](http://fiji.sc) plugins provides a quick way to save measurement calibrations for various microscopes/objectives in a simple text file, and then draw calibrated measurments onto your images.
+This set of [FIJI](http://fiji.sc) plugins provides a quick way to save distance/length calibrations for various microscopes/objectives in a simple text file, and then draw calibrated distances onto your images.
 
 You can then choose any of your prior calibrations to be applied to an open image (or all open images), as so: 
 
 ![Choose Calibration window][MMT-Choose-Cal-Pic]
 
 
-The "Draw Measurement" plugin then allows you to annotate a line ROI with the calibrated measurement length, as so: 
+The "Draw Measurement" plugin then allows you to draw a line with the calibrated measurement length, as so: 
 
 ![Annotation with Line][MMT-Annot-Line-Pic]
 
