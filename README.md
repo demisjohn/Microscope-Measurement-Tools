@@ -32,7 +32,7 @@ Three files are included:
 [MMT-Choose-Cal-Pic]: http://fiji.sc/_images/c/cd/Microscope_Meas_Tools_-_Choose_Calibration_01.png
 [MMT-Annot-Line-Pic]: http://fiji.sc/_images/f/f4/Microscope_Meas_Tools_-_Draw_Meas_Line.png
 
-####Contact
+#### Contact
 
 Feel free to add Issues/feature requests, or even better, Fork the `git` repository and submit your own updates (see this [how-to](http://kbroman.org/github_tutorial/pages/fork.html))!
 
