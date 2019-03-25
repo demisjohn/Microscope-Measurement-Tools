@@ -24,6 +24,7 @@ names = [
         'FluoroScope 50x', 
         'FluoroScope 100x', 
         'FluoroScope 150x',
+        'Olympus DUV 100x',
         ]
 
 
@@ -34,6 +35,7 @@ cals = [
         4.525,  
         9.0667,  
         13.5333,
+        54.6875,
         ]
 #   This is just 1/pixel_width, in case you were wondering.
 

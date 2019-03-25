@@ -9,11 +9,9 @@ User can optionally apply the scaling to all open images, and/or run the "Scale 
 Based off Microscope_Scale.java & Correct_3d_drift.py
 
 
-v1.2
-Demis D. John, Praevium Research Inc., 2015-05-29
+v1.3
+Demis D. John, Univ. of California Santa Barbara, 2019-02-27
 '''
-
-#print "hello outside!"
 
 ## Import some modules:
 from ij import IJ, ImagePlus, WindowManager
@@ -41,6 +39,7 @@ except ValueError:
 # microscope settings should be in the file `Microscope_Calibrations_user_settings.py`:
 import Microscope_Calibrations_user_settings as cal      # imports `names`, `cals`, `units` under namespace `cal.names` etc.
 
+mc_DEBUG = True     # Send debugging info to the log file?
 
 
 
@@ -56,19 +55,37 @@ def run():
     
     
     imp = IJ.getImage()     # get the current Image as ImagePlus object?
-    #print "imp=", imp
+    ImagePath = imp.getOriginalFileInfo().directory + os.path.sep + imp.getOriginalFileInfo().fileName
+    if mc_DEBUG: 
+        print "imp=", imp
+        print "ImagePath=", ImagePath
+    
         
     
     CalIdx, SetGlobalScale, AddScaleBar = uScopeCalDialog(cal)    # show Calibrations dialog
     
     if CalIdx == None: return       # User cancelled - exit
     
+    newcal = imp.getCalibration().copy()   # make a copy of current calibration object
+    
+    if CalIdx == 0: 
+        # For JEOL SEM - auto from accompanying *.txt
+        newPixelWidth, newUnit = getJEOLSEMCal( ImagePath )
+        newPixelHeight = newPixelWidth * 1.0
+        if mc_DEBUG: print "newPixelWidth, newUnit = ", newPixelWidth, newUnit
+    else:
+        newUnit = cal.units[CalIdx]
+        newPixelWidth = 1./cal.cals[CalIdx]  
+        newPixelHeight = newcal.pixelWidth * cal.aspect_ratio[CalIdx]
+        print "Chosen Cal=", cal.cals[CalIdx], " px/unit"
+        
+    #end if CalIdx
+
     # the following translated from "Microscope_Scale.java":
-    newcal = imp.getCalibration().copy()   # make a copy of calibration object
-    newcal.setUnit(  cal.units[CalIdx]  )
-    print "Chosen Cal=", cal.cals[CalIdx], " px/unit"
-    newcal.pixelWidth =  1./cal.cals[CalIdx]  
-    newcal.pixelHeight = newcal.pixelWidth * cal.aspect_ratio[CalIdx]
+    newcal.setUnit(  newUnit  )
+    newcal.pixelWidth =  newPixelWidth
+    newcal.pixelHeight = newPixelHeight    
+    
     
     if SetGlobalScale:
         '''Apply to all images'''
@@ -122,14 +139,19 @@ def uScopeCalDialog(cal):
     # generate text to display in list:
     # Radio Buttons:
     CalStr = []
+    
+    # add option for JEOL SEM  (CalIdx = 0)
+    CalStr.append( "JEOL SEM - auto cal from .txt")
+    
     for ii, name in enumerate(cal.names):
         CalStr.append(  name + "      (%s"%cal.cals[ii] + " pixels/%s)"%cal.units[ii]  )
+
     
     '''if > 20 cals, use dropdown list, otherwise use radio buttons'''
     if len(cal.names) > 20:
         Radio=False
         # Drop-Down list:
-        gd.addChoice("     Calibration:", CalStr, CalStr[0]   )   # default = 1st
+        gd.addChoice("     Calibration:", CalStr, CalStr[0]   )   # default = 1st (#0)
     
     else:
         Radio=True
@@ -166,6 +188,63 @@ def uScopeCalDialog(cal):
 #end uScopeCalDialog()
 
 
+def getJEOLSEMCal( filepath ):
+    '''Find accompying *.txt file that contains pixel-to-unitlength info, and apply the scale automatically.
+    Designed against a JEOL 7600F SEM.  Expects the *.xtx files to be next to the accompying image files of same name.'''
+    import re   # RegEx matching
+       
+    
+    txtpath = os.path.splitext( filepath )[0] + ".txt"
+    if mc_DEBUG: print "txtpath = ", txtpath
+    if not os.path.isfile(txtpath): raise IOError("Text File not found at: \n\t" + txtpath)
+    
+    # set up regex matching:
+    re_bar = re.compile( r'\$\$SM_MICRON_BAR (\d*)'  ) # groups the digits in "$$SM_MICRON_BAR 90"
+    re_barmark = re.compile( r'\$\$SM_MICRON_MARKER (\d*)([a-zA-Z]*)')  # groups the decimals and units in "$$SM_MICRON_MARKER 100nm"
+    
+    
+    # try to load the .txt file:
+    BarLength_px = None
+    BarLength_dist = None
+    BarLength_unit = None
+    
+    txtfile = open(txtpath, 'r')
+    try:
+        while True:
+            txtline = txtfile.readline()
+            if len(txtline) == 0:
+                # end of file, exit the loop
+                break
+            #end(if end-of-file)
+            
+            # search for strings/values:
+            match1 = re_bar.search( txtline )
+            if match1:
+                BarLength_px = float( match1.group(1)  )  # this is pixel width of the scale bar
+                if mc_DEBUG: print 'Scale Bar Pixel Length found:', match1.groups(), ' --> ', BarLength_px    
+            #end if(match1)
+            
+            match2 = re_barmark.search( txtline )
+            if match2:
+                BarLength_dist = float( match2.group(1)  )  # this is physical width of the scale bar
+                BarLength_unit = str( match2.group(2)  )
+                if mc_DEBUG: print 'Scale Bar Distance Length found:', match2.groups(), ' --> ', BarLength_dist, BarLength_unit
+            #end if(match2)
+            
+        #end while(file-reading)
+
+    except IOError:
+        raise IOError("Could not load text file that accompanies this image file.  Expected the text file to have the same filename as the image, except with '.txt' extension.  Expected file to be here:\n\t" + txtpath )
+    
+    finally:
+        # make sure python closes the file no matter what
+        txtfile.close()
+    #end try(txtfile)
+    
+    # return pixel-per-unit & units
+    #return (BarLength_px/BarLength_dist), BarLength_unit
+    return (BarLength_px/BarLength_dist), BarLength_unit
+#end getJEOLSEMCal()
 
 
 run()       # Run the script function!
