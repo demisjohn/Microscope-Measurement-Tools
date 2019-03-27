@@ -9,9 +9,11 @@ User can optionally apply the scaling to all open images, and/or run the "Scale 
 Based off Microscope_Scale.java & Correct_3d_drift.py
 
 
-v1.3
-Demis D. John, Univ. of California Santa Barbara, 2019-02-27
+v2.0
+Demis D. John, Univ. of California Santa Barbara, 2019-03-27
 '''
+
+mc_DEBUG = False     # Send debugging info to the log file?
 
 ## Import some modules:
 from ij import IJ, ImagePlus, WindowManager
@@ -39,7 +41,6 @@ except ValueError:
 # microscope settings should be in the file `Microscope_Calibrations_user_settings.py`:
 import Microscope_Calibrations_user_settings as cal      # imports `names`, `cals`, `units` under namespace `cal.names` etc.
 
-mc_DEBUG = True     # Send debugging info to the log file?
 
 
 
@@ -51,10 +52,10 @@ def run():
     
     
     imp = IJ.getImage()     # get the current Image as ImagePlus object
-    ImagePath = imp.getOriginalFileInfo().directory + os.path.sep + imp.getOriginalFileInfo().fileName
-    if mc_DEBUG: 
-        print("imp=", imp)
-        print("ImagePath=", ImagePath)
+    #ImagePath = imp.getOriginalFileInfo().directory + os.path.sep + imp.getOriginalFileInfo().fileName
+    #if mc_DEBUG: 
+    #    print( "imp=", imp )
+    #    print( "ImagePath=", ImagePath )
     
         
     
@@ -64,17 +65,27 @@ def run():
     
     newcal = imp.getCalibration().copy()   # make a copy of current calibration object
     
-    if CalIdx == 0: 
-        # For JEOL SEM - auto from accompanying *.txt
-        newPixelPerUnit, newUnit = getJEOLSEMCal( ImagePath )
-        newPixelWidth = 1. / newPixelPerUnit
-        newPixelHeight = newPixelWidth * 1.0
-        if mc_DEBUG: print "newPixelWidth, newUnit = ", newPixelWidth, newUnit
-    else:
+    if isinstance( cal.names[CalIdx], str ):
+        '''It's just a regular calibration setting'''
+        newPixelPerUnit = cal.cals[CalIdx]
         newUnit = cal.units[CalIdx]
-        newPixelWidth = 1./cal.cals[CalIdx]  
-        newPixelHeight = newcal.pixelWidth * cal.aspect_ratio[CalIdx]
-        print "Chosen Cal=", cal.cals[CalIdx], " px/unit"
+        newAspect = cal.aspect_ratio[CalIdx]
+        
+        newPixelWidth = 1. / newPixelPerUnit
+        newPixelHeight = newcal.pixelWidth * newAspect
+        print( "Chosen Cal=", cal.cals[CalIdx], " px/unit" )
+    else:
+        ''' Assume we'll be loading a custom function/class '''
+        # call the class' `classObj.cal( ImagePlusObject )` function to get the scale value:
+        newPixelPerUnit = cal.names[CalIdx].cal( imp )
+        newUnit = cal.names[CalIdx].unit
+        newAspect = cal.names[CalIdx].aspect_ratio
+        
+        newPixelWidth = 1. / newPixelPerUnit
+        newPixelHeight = newPixelWidth * newAspect
+        if mc_DEBUG: print( "newPixelWidth, newUnit = ", newPixelWidth, newUnit )
+    #end if(cal.name is a string)
+        
         
     #end if CalIdx
 
@@ -139,12 +150,21 @@ def uScopeCalDialog(cal):
     # generate text to display in list:
     # Radio Buttons:
     CalStr = []
+    CalType_IsFunc = []
     
     # add option for JEOL SEM  (CalIdx = 0)
-    CalStr.append( "JEOL SEM - auto cal from .txt")
+    #CalStr.append( "JEOL SEM - auto cal from .txt")
     
     for ii, name in enumerate(cal.names):
-        CalStr.append(  name + "      (%s"%cal.cals[ii] + " pixels/%s)"%cal.units[ii]  )
+        if mc_DEBUG: print( "item #%i: name=" % (ii), name, "\n\t type=", type(name)  )
+        if isinstance(name, basestring):
+            '''It's just a regular calibration setting'''
+            CalStr.append(  name + "      (%s"%cal.cals[ii] + " pixels/%s)"%cal.units[ii]  )
+        else:
+            ''' Assume we'll be loading a custom function/class '''
+            CalStr.append(  name.name  )    # get the name from the Class' .name attribute
+        #end if(str)
+    #end for(cal.names)
 
     
     '''if > 20 cals, use dropdown list, otherwise use radio buttons'''
