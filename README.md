@@ -33,12 +33,12 @@ Three files are included, which will show up in your FIJI "Analyze" menu:
 [MMT-Annot-Line-Pic]: http://fiji.sc/_images/f/f4/Microscope_Meas_Tools_-_Draw_Meas_Line.png
 
 ### Custom Calibration Functions
-A custom function can be added to the list of available calibrations.  A sub-folder is included showing an example of how to do this. The example is for a JEOL SEM, and the function will load an accompanying text file to determine the scale of the SEM image.
+A custom function can be added to the list of available calibrations.  A sub-folder is included showing an example of how to do this. The example is for a JEOL SEM (scanning electron microscope), and the function will load an accompanying text file to determine the scale of the SEM image.
 
-See the files in the sub-folder "*MScopeCals - custom function example*" for more info.
+See the files in the sub-folder "*MScopeCals - custom function example*" for more info, and move both of the `*.py` files into the main *Microscope Measurement Tools* folder to see how they can be used.  An example SEM image and TXT file from a JEOM 7600F SEM are included.
 
 ## Contact
 
 Feel free to add Issues/feature requests, or even better, Fork the `git` repository and submit your own updates (see this [how-to](http://kbroman.org/github_tutorial/pages/fork.html))!
 
-Jan. 2016, Demis D. John
+Mar. 2019, Demis D. John
