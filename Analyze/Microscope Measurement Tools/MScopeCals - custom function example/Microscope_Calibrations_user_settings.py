@@ -1,7 +1,10 @@
 '''
 	FIJI Plugin
-Configuration for Microscope Calibrations v1.py
-Demis D. John, Praevium Research Inc., 2015
+Configuration for Microscope Calibrations
+Demis D. John, Univ. of California Santa Barbara, 2019
+
+This version of the settings file contains a pointer to a custom function, which automatically sets the scale by loading a text file that corresponds to the loaded image file.  The custom function is found in a separate file "JEOL_SEM_AutoCal.py", and you can see the class defined in this file being loaded below.
+In addition, an instance of the class is inserted into the lists of names/calibrations, and all information will be obtained from the Class/external file.
 
 Please make sure the lists `names`, `cals` and `units` all have the same number of items!
 
@@ -18,6 +21,13 @@ Microscope scaling/pixel-size calibration settings.
 """
 
 # The names of the microscope calibrations (shows up as the radio button names):
+#   For custom functions, pass the handle to an instantiated class instead of a string.
+
+# Custom Function: Load JEOL SEM autocal class from a file:
+from JEOL_SEM_AutoCal   import JEOL_SEM_CalFromTxt
+jeol_sem_cal_from_txt = JEOL_SEM_CalFromTxt()    # instantiate the class
+
+
 names = [
         'FluoroScope 5x', 
         'FluoroScope 20x', 
@@ -25,6 +35,7 @@ names = [
         'FluoroScope 100x', 
         'FluoroScope 150x',
         'Olympus DUV 100x',
+        jeol_sem_cal_from_txt,   # instance of class with custom function `MyClass.cal()` for setting image scale.
         ]
 
 
@@ -36,22 +47,39 @@ cals = [
         9.0667,  
         13.5333,
         54.6875,
+        jeol_sem_cal_from_txt,  # placeholder for custom function
         ]
 #   This is just 1/pixel_width, in case you were wondering.
 
 
 # length-units for each calibration:
-#units = ['um','um','um','um','um']
+units = [
+        'um',
+        'um',
+        'um',
+        'um',
+        'um',
+        'um',
+        jeol_sem_cal_from_txt,
+        ]
 # for identical units for all cals, use the following line instead (uncomment):
-units = ['um'    for x in cals]    # list-comprehension with constant `um`
+#units = ['um'    for x in cals]    # list-comprehension with constant `um`
 
 
 # Aspect Ratio for each calibration (default should be 1.0 )
 #   Ratio is defined as so: pixelHeight = pixelWidth * AspectRatio
-# The following sets the aspect ratio to 1 for all calibrations:
-aspect_ratio =  [ 1.0    for x in cals ]   # list-comprehension with constant `1`
 # Uncomment the following line to use custom aspect ratios:
-#aspect_ratio = [1, 1, 1, 1, 1]
+aspect_ratio = [
+        1, 
+        1, 
+        1, 
+        1, 
+        1,
+        1,
+        jeol_sem_cal_from_txt,
+                ]
+# The following sets the aspect ratio to 1 for all calibrations (uncomment to use):
+#aspect_ratio =  [ 1.0    for x in cals ]   # list-comprehension with constant `1`
 
 
 

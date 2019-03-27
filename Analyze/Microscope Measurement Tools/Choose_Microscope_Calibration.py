@@ -9,11 +9,11 @@ User can optionally apply the scaling to all open images, and/or run the "Scale 
 Based off Microscope_Scale.java & Correct_3d_drift.py
 
 
-v1.2
-Demis D. John, Praevium Research Inc., 2015-05-29
+v2.0
+Demis D. John, Univ. of California Santa Barbara, 2019-03-27
 '''
 
-#print "hello outside!"
+mc_DEBUG = False     # Send debugging info to the log file?
 
 ## Import some modules:
 from ij import IJ, ImagePlus, WindowManager
@@ -48,27 +48,52 @@ import Microscope_Calibrations_user_settings as cal      # imports `names`, `cal
 def run():
     '''This is the main function run when the plugin is called.'''
     
-    #print "hello in run()"
-    
-
-    
     #print cal.names, cal.cals, cal.units
     
     
-    imp = IJ.getImage()     # get the current Image as ImagePlus object?
-    #print "imp=", imp
+    imp = IJ.getImage()     # get the current Image as ImagePlus object
+    #ImagePath = imp.getOriginalFileInfo().directory + os.path.sep + imp.getOriginalFileInfo().fileName
+    #if mc_DEBUG: 
+    #    print( "imp=", imp )
+    #    print( "ImagePath=", ImagePath )
+    
         
     
     CalIdx, SetGlobalScale, AddScaleBar = uScopeCalDialog(cal)    # show Calibrations dialog
     
     if CalIdx == None: return       # User cancelled - exit
     
+    newcal = imp.getCalibration().copy()   # make a copy of current calibration object
+    
+    if isinstance( cal.names[CalIdx], str ):
+        '''It's just a regular calibration setting'''
+        newPixelPerUnit = cal.cals[CalIdx]
+        newUnit = cal.units[CalIdx]
+        newAspect = cal.aspect_ratio[CalIdx]
+        
+        newPixelWidth = 1. / newPixelPerUnit
+        newPixelHeight = newcal.pixelWidth * newAspect
+        print( "Chosen Cal=", cal.cals[CalIdx], " px/unit" )
+    else:
+        ''' Assume we'll be loading a custom function/class '''
+        # call the class' `classObj.cal( ImagePlusObject )` function to get the scale value:
+        newPixelPerUnit = cal.names[CalIdx].cal( imp )
+        newUnit = cal.names[CalIdx].unit
+        newAspect = cal.names[CalIdx].aspect_ratio
+        
+        newPixelWidth = 1. / newPixelPerUnit
+        newPixelHeight = newPixelWidth * newAspect
+        if mc_DEBUG: print( "newPixelWidth, newUnit = ", newPixelWidth, newUnit )
+    #end if(cal.name is a string)
+        
+        
+    #end if CalIdx
+
     # the following translated from "Microscope_Scale.java":
-    newcal = imp.getCalibration().copy()   # make a copy of calibration object
-    newcal.setUnit(  cal.units[CalIdx]  )
-    print "Chosen Cal=", cal.cals[CalIdx], " px/unit"
-    newcal.pixelWidth =  1./cal.cals[CalIdx]  
-    newcal.pixelHeight = newcal.pixelWidth * cal.aspect_ratio[CalIdx]
+    newcal.setUnit(  newUnit  )
+    newcal.pixelWidth =  newPixelWidth
+    newcal.pixelHeight = newPixelHeight    
+    
     
     if SetGlobalScale:
         '''Apply to all images'''
@@ -102,15 +127,18 @@ def uScopeCalDialog(cal):
     as set in the "user_settings.py" file.
     
     `CalIdx` is the list index to the chosen calibration.  
-    Eg., if the options were 
-        ['5x', '10x', '20x']
-    and the user chose '10x', then 
-        CalIdx = 1
-    `SetGlobalScale` is a boolean from a checkbox option, if the user wants this calibration set 'globally'.
-    `AddScaleBar` is also a boolean, for a checkbox option, if user would like to run "Scale Bar..." afterwards.
+        Eg., if the options were 
+            ['5x', '10x', '20x']
+        and the user chose '10x', then 
+            CalIdx = 1
+        Returns `None` if the user cancelled the dialog.
+    
+    `SetGlobalScale` is a boolean (True/False) from a checkbox option, if the user wants this calibration set 'globally' to all open images.
+    
+    `AddScaleBar` is also a boolean (True/False), for a checkbox option, if user would like to run "Scale Bar..." afterwards.
     '''
     
-    # The following copied from Correct_3D_drift.py:
+    # The following inspired heavily by Correct_3D_drift.py:
     
     #print "uScopeCalDialog():"
     #print cal.names, [str(x) for x in cal.cals]
@@ -122,14 +150,28 @@ def uScopeCalDialog(cal):
     # generate text to display in list:
     # Radio Buttons:
     CalStr = []
+    CalType_IsFunc = []
+    
+    # add option for JEOL SEM  (CalIdx = 0)
+    #CalStr.append( "JEOL SEM - auto cal from .txt")
+    
     for ii, name in enumerate(cal.names):
-        CalStr.append(  name + "      (%s"%cal.cals[ii] + " pixels/%s)"%cal.units[ii]  )
+        if mc_DEBUG: print( "item #%i: name=" % (ii), name, "\n\t type=", type(name)  )
+        if isinstance(name, basestring):
+            '''It's just a regular calibration setting'''
+            CalStr.append(  name + "      (%s"%cal.cals[ii] + " pixels/%s)"%cal.units[ii]  )
+        else:
+            ''' Assume we'll be loading a custom function/class '''
+            CalStr.append(  name.name  )    # get the name from the Class' .name attribute
+        #end if(str)
+    #end for(cal.names)
+
     
     '''if > 20 cals, use dropdown list, otherwise use radio buttons'''
     if len(cal.names) > 20:
         Radio=False
         # Drop-Down list:
-        gd.addChoice("     Calibration:", CalStr, CalStr[0]   )   # default = 1st
+        gd.addChoice("     Calibration:", CalStr, CalStr[0]   )   # default = 1st (#0)
     
     else:
         Radio=True
@@ -166,6 +208,62 @@ def uScopeCalDialog(cal):
 #end uScopeCalDialog()
 
 
+def getJEOLSEMCal( filepath ):
+    '''Find accompying *.txt file that contains pixel-to-unitlength info, and apply the scale automatically.
+    Designed against a JEOL 7600F SEM.  Expects the *.xtx files to be next to the accompying image files of same name.'''
+    import re   # RegEx matching
+       
+    
+    txtpath = os.path.splitext( filepath )[0] + ".txt"
+    if mc_DEBUG: print "txtpath = ", txtpath
+    if not os.path.isfile(txtpath): raise IOError("Text File not found at: \n\t" + txtpath)
+    
+    # set up regex matching:
+    re_bar = re.compile( r'\$\$SM_MICRON_BAR (\d*)'  ) # groups the digits in "$$SM_MICRON_BAR 90"
+    re_barmark = re.compile( r'\$\$SM_MICRON_MARKER (\d*)([a-zA-Z]*)')  # groups the decimals and units in "$$SM_MICRON_MARKER 100nm"
+    
+    
+    # try to load the .txt file:
+    BarLength_px = None
+    BarLength_dist = None
+    BarLength_unit = None
+    
+    txtfile = open(txtpath, 'r')
+    try:
+        while True:
+            txtline = txtfile.readline()
+            if len(txtline) == 0:
+                # end of file, exit the loop
+                break
+            #end(if end-of-file)
+            
+            # search for strings/values:
+            match1 = re_bar.search( txtline )
+            if match1:
+                BarLength_px = float( match1.group(1)  )  # this is pixel width of the scale bar
+                if mc_DEBUG: print 'Scale Bar Pixel Length found:', match1.groups(), ' --> ', BarLength_px    
+            #end if(match1)
+            
+            match2 = re_barmark.search( txtline )
+            if match2:
+                BarLength_dist = float( match2.group(1)  )  # this is physical width of the scale bar
+                BarLength_unit = str( match2.group(2)  )
+                if mc_DEBUG: print 'Scale Bar Distance Length found:', match2.groups(), ' --> ', BarLength_dist, BarLength_unit
+            #end if(match2)
+            
+        #end while(file-reading)
+
+    except IOError:
+        raise IOError("Could not load text file that accompanies this image file.  Expected the text file to have the same filename as the image, except with '.txt' extension.  Expected file to be here:\n\t" + txtpath )
+    
+    finally:
+        # make sure python closes the file no matter what
+        txtfile.close()
+    #end try(txtfile)
+    
+    # return pixel-per-unit & units
+    return (BarLength_px/BarLength_dist), BarLength_unit
+#end getJEOLSEMCal()
 
 
 run()       # Run the script function!

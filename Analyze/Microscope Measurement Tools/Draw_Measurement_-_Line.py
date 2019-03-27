@@ -24,14 +24,14 @@ import sys, os
 libpth = os.path.split(  os.path.split( sys.path[0] )[0]  )[0]  # split-off the "/jars/lib" part
 #print  libpth
 libpth = os.path.join(libpth, 'plugins', 'Scripts', 'Analyze', 'Microscope Measurement Tools')
-# hard-coded path, underneath the Fiji directory.
+# hard-coded path, within the Fiji directory.
 
 try:
     sys.path.index( libpth )    # see if search-path is already added
 except ValueError:
     # path wasn't included yet, so add it:
     sys.path.append( libpth )
-#sys.path.append('/Applications/Fiji.app/plugins/Scripts/Plugins/uScopeMeas/')
+#sys.path.append('/Applications/Fiji.app/plugins/Scripts/Analyze/Microscope Measurement Tools/')
 #print sys.path
 
 # microscope settings should be in the file `Microscope_Calibrations_user_settings.py`:
@@ -39,7 +39,7 @@ import Microscope_Calibrations_user_settings as sets      # imports settings und
 
 #print os.path.abspath(sets.__file__)
 #print dir(sets)
-#print sets.cals
+#print sets.cals    # see what calibrations have been set
 
 
 # the run() function is called at the end of this script:
@@ -54,9 +54,7 @@ def run():
     #print dir(imp)
     
     roi = imp.getRoi()  # get the drawn ROI
-    #print "roi=", roi
-    
-    #print roi.getClass()
+    #print "roi=", roi, roi.getClass()
     
     
     # check ROI type
@@ -78,12 +76,12 @@ def run():
     
     p1 = [  int(roi.x1d),  int(roi.y1d)  ]    # point 1 (x,y)
     p2 = [  int(roi.x2d),  int(roi.y2d)  ]    # point 2
-    print "Line Points: p1=", p1, " & p2=", p2
+    print "DrawMeas(): Line Points: p1=", p1, " & p2=", p2
     pm = midpoint(p1, p2)   # get midpoint coord
     
     
     # set ROI params from settings:
-    ''' Using new method - used ip.drawLine instead of roi.draw, since roi.draw didn't always apply the line thickness.  Would be best to use teh ROI method, in case other types of ROI's could be annotated.
+    ''' Using new method - used ip.drawLine instead of roi.draw, since roi.draw didn't always apply the line thickness.  Would be best to use the ROI method, in case other types of ROI's could be annotated.
     
     roi.setStrokeWidth( sets.linethickness )
     roi.setStrokeColor(  jColor(float(sets.linecolor[0]), float(sets.linecolor[1]), float(sets.linecolor[2]), float(sets.linecolor[3]))  )
@@ -96,10 +94,8 @@ def run():
     ip.setColor(  jColor(float(sets.linecolor[0]), float(sets.linecolor[1]), float(sets.linecolor[2]), float(sets.linecolor[3]))  )
     
     #ip.draw(roi)   # changed to ip.drawLine()
-    
     ip.drawLine( int(roi.x1d),  int(roi.y1d), int(roi.x2d),  int(roi.y2d)  )
 
-    #imp.updateAndDraw()     #update the image
     
     
     
@@ -111,10 +107,10 @@ def run():
     
     # format of measurement text (eg. 3 decimal points):
     lenstr = "%0.3f" % roi.getLength() + " %s" % (unit)  # string to print as length
-    print "Line length= %s" % lenstr
+    print "DrawMeas(): Line length= %s" % lenstr
     #print "x,y=", p2[0], p2[1]
     
-    '''determine position of text from coords'''
+    '''determine position of text from line coords, eg "bottom right" or "top left" etc.   '''
     # y-coord:
     if p2[1] > p1[1]:
         posstr = 'bottom'
@@ -183,12 +179,12 @@ def drawText( text, x, y, position='bottom right' ):
     
     position : { 'bottom right', 'top right', 'top left', 'bottom left' }, case-insensitive, optional
         Where to draw the text, with respect to the coordinates given.
-        Synonyms for 'bottom right' are 'br'.
+        Synonyms for 'bottom right' are 'br'.  This is the default.
         Synonyms for 'top right' are 'tr'.
         Synonyms for 'bottom left' are 'bl'.
         Synonyms for 'top left' are 'tl'.
     '''
-    print "drawText(): initial (x,y)=(%i,%i)"%( x, y )
+    print "drawText(): original (x,y)=(%i,%i)"%( x, y )
     
     
     # microscope settings should be in the file `Microscope_Calibrations_user_settings.py`:
@@ -212,12 +208,12 @@ def drawText( text, x, y, position='bottom right' ):
         raise ValueError( 'drawText(): Invalid `position` argument: "%s".'%(position) )
     
     
+    
+    
     '''Setup text annotation'''
-        
     # set font:
     ip.setFont(   jFont('SansSerif', 0, sets.textsize)   )
     ip.setColor(    jColor(  float(sets.textcolor[0]), float(sets.textcolor[1]), float(sets.textcolor[2]), float(sets.textcolor[3])  )   )
-    
     
     
     
@@ -239,7 +235,7 @@ def drawText( text, x, y, position='bottom right' ):
     
     
     # set coords (x,y) based on `position` argument
-    ''' By default, text is horizontally centered at point (x), and vertically above the point (y).'''
+    ''' By default, text is horizontally centered at point (x), and vertically above the point (y).  We then modify these default coords.  '''
 
     if pos[0] == 'b':
         y = y + spacer + strh   # moves down 
