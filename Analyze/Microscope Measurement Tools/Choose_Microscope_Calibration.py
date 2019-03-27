@@ -47,18 +47,14 @@ mc_DEBUG = True     # Send debugging info to the log file?
 def run():
     '''This is the main function run when the plugin is called.'''
     
-    #print "hello in run()"
-    
-
-    
     #print cal.names, cal.cals, cal.units
     
     
-    imp = IJ.getImage()     # get the current Image as ImagePlus object?
+    imp = IJ.getImage()     # get the current Image as ImagePlus object
     ImagePath = imp.getOriginalFileInfo().directory + os.path.sep + imp.getOriginalFileInfo().fileName
     if mc_DEBUG: 
-        print "imp=", imp
-        print "ImagePath=", ImagePath
+        print("imp=", imp)
+        print("ImagePath=", ImagePath)
     
         
     
@@ -70,7 +66,8 @@ def run():
     
     if CalIdx == 0: 
         # For JEOL SEM - auto from accompanying *.txt
-        newPixelWidth, newUnit = getJEOLSEMCal( ImagePath )
+        newPixelPerUnit, newUnit = getJEOLSEMCal( ImagePath )
+        newPixelWidth = 1. / newPixelPerUnit
         newPixelHeight = newPixelWidth * 1.0
         if mc_DEBUG: print "newPixelWidth, newUnit = ", newPixelWidth, newUnit
     else:
@@ -119,15 +116,18 @@ def uScopeCalDialog(cal):
     as set in the "user_settings.py" file.
     
     `CalIdx` is the list index to the chosen calibration.  
-    Eg., if the options were 
-        ['5x', '10x', '20x']
-    and the user chose '10x', then 
-        CalIdx = 1
-    `SetGlobalScale` is a boolean from a checkbox option, if the user wants this calibration set 'globally'.
-    `AddScaleBar` is also a boolean, for a checkbox option, if user would like to run "Scale Bar..." afterwards.
+        Eg., if the options were 
+            ['5x', '10x', '20x']
+        and the user chose '10x', then 
+            CalIdx = 1
+        Returns `None` if the user cancelled the dialog.
+    
+    `SetGlobalScale` is a boolean (True/False) from a checkbox option, if the user wants this calibration set 'globally' to all open images.
+    
+    `AddScaleBar` is also a boolean (True/False), for a checkbox option, if user would like to run "Scale Bar..." afterwards.
     '''
     
-    # The following copied from Correct_3D_drift.py:
+    # The following inspired heavily by Correct_3D_drift.py:
     
     #print "uScopeCalDialog():"
     #print cal.names, [str(x) for x in cal.cals]
@@ -242,7 +242,6 @@ def getJEOLSEMCal( filepath ):
     #end try(txtfile)
     
     # return pixel-per-unit & units
-    #return (BarLength_px/BarLength_dist), BarLength_unit
     return (BarLength_px/BarLength_dist), BarLength_unit
 #end getJEOLSEMCal()
 
