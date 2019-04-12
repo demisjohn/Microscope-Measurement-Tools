@@ -9,11 +9,11 @@ User can optionally apply the scaling to all open images, and/or run the "Scale 
 Based off Microscope_Scale.java & Correct_3d_drift.py
 
 
-v2.0
-Demis D. John, Univ. of California Santa Barbara, 2019-03-27
+v2.2
+Demis D. John, Univ. of California Santa Barbara, 2019-04-12
 '''
 
-mc_DEBUG = False     # Print debugging info to the log file?
+mc_DEBUG = False     # Print debugging info to the console?
 
 ## Import some modules:
 from ij import IJ, ImagePlus, WindowManager
@@ -53,8 +53,8 @@ def run():
     
     imp = IJ.getImage()     # get the current Image as ImagePlus object
 
-    
-    CalIdx, SetGlobalScale, AddScaleBar = uScopeCalDialog(cal)    # show Calibrations dialog
+    # Show "Choose Calibration" dialog:
+    CalIdx, SetGlobalScale, AddScaleBar = uScopeCalDialog(cal)
     
     if CalIdx == None: return       # User cancelled - exit
     
@@ -62,25 +62,31 @@ def run():
     
     if isinstance( cal.names[CalIdx], str ):
         '''It's just a regular calibration setting'''
-        newPixelPerUnit = cal.cals[CalIdx]
+        if mc_DEBUG: print("Calibration is Regular String/text")
+        newPixelPerUnit = float( cal.cals[CalIdx] )
         newUnit = cal.units[CalIdx]
-        newAspect = cal.aspect_ratio[CalIdx]
-        
-        newPixelWidth = 1. / newPixelPerUnit
-        newPixelHeight = newcal.pixelWidth * newAspect
-        print "Chose `", cal.names[CalIdx], "` : ", newPixelPerUnit, " px/", newUnit
-    else:
-        ''' Assume we'll be loading a custom function/class '''
-        # call the class' `classObj.cal( ImagePlusObject )` function to get the scale value:
-        newPixelPerUnit = cal.names[CalIdx].cal( imp )
-        newUnit = cal.names[CalIdx].unit
-        newAspect = cal.names[CalIdx].aspect_ratio
+        newAspect = float( cal.aspect_ratio[CalIdx] )
         
         newPixelWidth = 1. / newPixelPerUnit
         newPixelHeight = newPixelWidth * newAspect
-        print "Chose `", cal.names[CalIdx].name, "` : ", newPixelPerUnit, " px/", newUnit
-    #end if(cal.name is a string or function)
+    else:
+        ''' Assume we'll be loading a custom function/class '''
+        if mc_DEBUG: print("Calibration is a custom function.")
+        # call the class' `classObj.cal( ImagePlusObject )` function to get the scale value:
+        try:
+            calObject = cal.names[CalIdx]
+            newPixelPerUnit = calObject.cal( imp )
+        except AttributeError:
+            raise ValueError('This calibration Name value is invalid, please check your Settings.py file!/n/tFor Calibration Number %i, got: `'%(CalIdx) + str(cal.names[CalIdx]) + '`. Expected a String or a Class instance with ".cal()" method, but got type ' + str( type(cal.names[CalIdx]) ) + ' with no ".cal()" method.' )
+        #end try
         
+        newUnit = calObject.unit
+        newAspect = calObject.aspect_ratio
+        
+        newPixelWidth = 1. / newPixelPerUnit
+        newPixelHeight = newPixelWidth * newAspect
+    #end if(cal.name is a string or function)
+    print "Chose `", calObject.name, "` : ", newPixelPerUnit, " px/", newUnit
         
     #end if CalIdx
 
@@ -88,7 +94,7 @@ def run():
     newcal.setUnit(  newUnit  )
     newcal.pixelWidth =  newPixelWidth
     newcal.pixelHeight = newPixelHeight    
-    
+
     
     if SetGlobalScale:
         '''Apply to all images'''
@@ -195,7 +201,7 @@ def uScopeCalDialog(cal):
     
     
     
-    if mc_DEBUG: print( ChosenRadio,CalIdx, SetGlobalScale )
+    #if mc_DEBUG: print( ChosenCal,CalIdx, SetGlobalScale )
     #if mc_DEBUG: print( "end uScopeCalDialog()." )
     return CalIdx, SetGlobalScale, AddScaleBar
 #end uScopeCalDialog()
