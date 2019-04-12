@@ -42,7 +42,7 @@ cals = [
 
 # length-units for each calibration:
 #units = ['um','um','um','um','um']
-# for identical units for all cals, use the following line instead (uncomment):
+# for identical units for all cals, can use the following line instead (uncomment):
 units = ['um'    for x in cals]    # list-comprehension with constant `um`
 
 
