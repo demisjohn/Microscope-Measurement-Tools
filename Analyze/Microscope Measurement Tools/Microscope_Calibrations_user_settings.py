@@ -1,11 +1,23 @@
 '''
-	FIJI Plugin
-Configuration for Microscope Calibrations v1.py
-Demis D. John, Praevium Research Inc., 2015
+	FIJI Plugin - Microscope Measurement Tools
+        Configuration for Choose_Microscope_Calibration.py & Draw_Measurement_-_Line.py
+        Demis D. John, University of California Santa Barbara, Nanofabrication Facility, 2019
+        https://www.nanotech.ucsb.edu
 
-Please make sure the lists `names`, `cals` and `units` all have the same number of items!
+Make sure the lists `names`, `cals`, `units` and `aspect_ratio` all have the same number of items!
 
 After you edit this file, be sure to delete the corresponding *.pyclass file and restart Fiji for the settings to take effect.
+
+
+All of these lists are regular Python Lists, so define them however you prefer to define pythonic lists.  You can define them in-line like normal:
+    x = [ 'one', 'two',  'three' ]
+or in a vertical fashion:
+    x = [
+            'one',      # you can even comment on each line of the list
+            'two',
+            'three'
+        ]
+or even do python math on the lists, such as repeating an item with `*`, or using "list comprehensions".
 '''
 
 
@@ -17,7 +29,7 @@ After you edit this file, be sure to delete the corresponding *.pyclass file and
 Microscope scaling/pixel-size calibration settings.
 """
 
-# The names of the microscope calibrations (shows up as the radio button names):
+# The names of the microscope calibrations (shows up as the radio button/drop-down names):
 names = [
         'FluoroScope 5x', 
         'FluoroScope 20x', 
@@ -28,14 +40,14 @@ names = [
         ]
 
 
-# The 'pixel-per-unit' obtained from the "Set Scale..." Dialog, for each named calibration above:
+# The 'pixel-per-unit' obtained from the "Set Scale..." dialog, for each named calibration above:
 cals = [
-        0.9058,
+        0.9058,     # FluoroScope 5x to 150x
         1.81,  
         4.525,  
         9.0667,  
         13.5333,
-        54.6875,
+        54.6875,    # Olympus DUV
         ]
 #   This is just 1/pixel_width, in case you were wondering.
 
@@ -92,7 +104,7 @@ texttoleft = True      # put text on left or right side of last point?
 
 '''
 ---------------------------------------------------------
-Warn user if they run this file as a stand-alone plugin.
+Warn user if they erroneously run this file as a stand-alone plugin.
 '''
 
 def run():
