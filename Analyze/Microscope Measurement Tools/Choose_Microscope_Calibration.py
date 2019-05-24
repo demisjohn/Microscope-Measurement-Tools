@@ -62,6 +62,7 @@ def run():
     
     if isinstance( cal.names[CalIdx], str ):
         '''It's just a regular calibration setting'''
+        calName = cal.names[CalIdx]
         if mc_DEBUG: print("Calibration is Regular String/text")
         newPixelPerUnit = float( cal.cals[CalIdx] )
         newUnit = cal.units[CalIdx]
@@ -75,6 +76,7 @@ def run():
         # call the class' `classObj.cal( ImagePlusObject )` function to get the scale value:
         try:
             calObject = cal.names[CalIdx]
+            calName = calObject.name
             newPixelPerUnit = calObject.cal( imp )
         except AttributeError:
             raise ValueError('This calibration Name value is invalid, please check your Settings.py file!/n/tFor Calibration Number %i, got: `'%(CalIdx) + str(cal.names[CalIdx]) + '`. Expected a String or a Class instance with ".cal()" method, but got type ' + str( type(cal.names[CalIdx]) ) + ' with no ".cal()" method.' )
@@ -86,7 +88,7 @@ def run():
         newPixelWidth = 1. / newPixelPerUnit
         newPixelHeight = newPixelWidth * newAspect
     #end if(cal.name is a string or function)
-    print "Chose `", calObject.name, "` : ", newPixelPerUnit, " px/", newUnit
+    print "Chose `", calName, "` : ", newPixelPerUnit, " px/", newUnit
         
     #end if CalIdx
 
