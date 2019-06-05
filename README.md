@@ -16,7 +16,8 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 # Installation
 Download and install the [scientific image analysis program FIJI](http://fiji.sc).
 
-Download the most recent [Microscope Tools Release from Github](https://github.com/demisjohn/Microscope-Measurement-Tools/releases).
+Download the most recent [Microscope Tools Release from Github](https://github.com/demisjohn/Microscope-Measurement-Tools/releases).  
+For the *UCSB Fork*, [download the forked repo](https://github.com/demisjohn/Microscope-Measurement-Tools-UCSB/archive/master.zip).
 
 View the [Instructions PDF on Github](https://github.com/demisjohn/Microscope-Measurement-Tools/blob/master/Microscope%20Meas.%20-%20Calibration%20instructions.pdf) for the Installation & Calibration procedure.
 
