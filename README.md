@@ -13,12 +13,14 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 ![Annotation with Line][MMT-Annot-Line-Pic]
 
 
-## Installation
-Download the most recent [Release from Github](https://github.com/demisjohn/Microscope-Measurement-Tools/releases).
+# Installation
+Download and install the [scientific image analysis program FIJI](http://fiji.sc).
+
+Download the most recent [Microscope Tools Release from Github](https://github.com/demisjohn/Microscope-Measurement-Tools/releases).
 
 View the [Instructions PDF on Github](https://github.com/demisjohn/Microscope-Measurement-Tools/blob/master/Microscope%20Meas.%20-%20Calibration%20instructions.pdf) for the Installation & Calibration procedure.
 
-## Usage
+# Usage
 Three files are included, which will show up in your FIJI "Analyze" menu:
 
 + **Choose_Microscope_Calibration.py**
@@ -32,13 +34,13 @@ Three files are included, which will show up in your FIJI "Analyze" menu:
 [MMT-Choose-Cal-Pic]: http://fiji.sc/_images/c/cd/Microscope_Meas_Tools_-_Choose_Calibration_01.png
 [MMT-Annot-Line-Pic]: http://fiji.sc/_images/f/f4/Microscope_Meas_Tools_-_Draw_Meas_Line.png
 
-### Custom Calibration Functions
-A custom function can be added to the list of available calibrations.  A sub-folder is included showing an example of how to do this. The example is for a JEOL SEM (scanning electron microscope), and the function will load an accompanying text file to determine the scale of the SEM image.
+## Custom Calibration Functions
+A custom function can be added to the list of available calibrations (as opposed to a static scale value).  A sub-folder is included showing an example of how to do this. The example is for a JEOL SEM (scanning electron microscope), and the example function will determine the scale of the SEM image by parsing an accompanying text file.
 
 See the files in the sub-folder "*MScopeCals - custom function example*" for more info, and move both of the `*.py` files into the main *Microscope Measurement Tools* folder to see how they can be used.  An example SEM image and TXT file from a JEOM 7600F SEM are included.
 
-## Contact
+# Contact
 
-Feel free to add Issues/feature requests, or even better, Fork the `git` repository and submit your own updates (see this [how-to](http://kbroman.org/github_tutorial/pages/fork.html))!
+Feel free to add Issues/Feature Requests, or even better, Fork the `git` repository and submit your own updates (see this [how-to](http://kbroman.org/github_tutorial/pages/fork.html))!
 
-Mar. 2019, Demis D. John
+June 2019, Demis D. John
