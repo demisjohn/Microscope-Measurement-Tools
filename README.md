@@ -12,6 +12,8 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 
 ![Annotation with Line][MMT-Annot-Line-Pic]
 
+[MMT-Choose-Cal-Pic]: http://fiji.sc/_images/c/cd/Microscope_Meas_Tools_-_Choose_Calibration_01.png
+[MMT-Annot-Line-Pic]: http://fiji.sc/_images/f/f4/Microscope_Meas_Tools_-_Draw_Meas_Line.png
 
 # Installation
 Download and install the [scientific image analysis program FIJI](http://fiji.sc).
@@ -31,9 +33,16 @@ Three files are included, which will show up in your FIJI "Analyze" menu:
 + **Microscope_Calibrations_user_settings.py**
   + *User-editable Settings file that contains your pre-configured scale calibrations, along with settings for drawing annotations (background/text color etc.)*
   + Please see the Instructions PDF for detailed instructions on setting up your settings file with Calibrations.
-  
-[MMT-Choose-Cal-Pic]: http://fiji.sc/_images/c/cd/Microscope_Meas_Tools_-_Choose_Calibration_01.png
-[MMT-Annot-Line-Pic]: http://fiji.sc/_images/f/f4/Microscope_Meas_Tools_-_Draw_Meas_Line.png
+
+## Calibrating your microscope
+View the [Instructions PDF on Github](https://github.com/demisjohn/Microscope-Measurement-Tools/blob/master/Microscope%20Meas.%20-%20Calibration%20instructions.pdf) for the Calibration procedure.
+
+## Making + Drawing measurements
+Select the Menu Item `Analyze > Microscope Measurement Tools > Choose Microscope Calibration`, and select your microscope/objective from the resulting list.  The pixel scale will be applied.
+
+You can now drag a Line (or other type of ROI) on any feature, and the FIJI toolbar will show you the measurement dynamically.  Other FIJI functions can now also be used for calibrated measurements (areas etc.).
+
+To draw this measurement on your image, drag the Line to the desired location, and select the menu item `Analyze > Microscope Measurement Tools > Draw Measurement - Line`
 
 ## Custom Calibration Functions
 A custom function can be added to the list of available calibrations (as opposed to a static scale value).  A sub-folder is included showing an example of how to do this. The example is for a JEOL SEM (scanning electron microscope), and the example function will determine the scale of the SEM image by parsing an accompanying text file.
