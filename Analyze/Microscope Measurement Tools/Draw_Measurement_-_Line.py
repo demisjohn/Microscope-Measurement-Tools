@@ -23,7 +23,7 @@ import sys, os
 # add the path to this script, so we can find the user-settings
 libpth = os.path.split(  os.path.split( sys.path[0] )[0]  )[0]  # split-off the "/jars/lib" part
 #print  libpth
-libpth = os.path.join(libpth, 'plugins', 'Scripts', 'Analyze', 'Microscope Measurement Tools')
+libpth = os.path.join(libpth, 'plugins', 'Analyze', 'Microscope Measurement Tools')
 # hard-coded path, within the Fiji directory.
 
 try:
