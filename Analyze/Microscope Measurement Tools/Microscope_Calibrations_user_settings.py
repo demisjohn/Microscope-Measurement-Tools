@@ -81,13 +81,13 @@ Colors are specified as:
     opaque white is [1,1,1, 1]
 """
 
-linethickness = 5.0     # in pixels
-linecolor = [ 0, 0.7, 0,   1.0]     
-textsize = 30           # text height in pixels, I think
-textcolor =     [ 0, 0.8, 0,   1.0]
-textbackgroundcolor = [ 0, 0, 0,   0.6]       # background color behind text.
-#textbackgroundcolor = None      # set to None for no background - uncomment this line
-texttoleft = True      # put text on left or right side of last point?
+linethickness = 5.0 # in pixels
+linecolor = [ 0, 0.7, 0, 1.0]
+textsize = 50 # text height in pixels, I think
+textcolor = [ 1, 0, 1,   1.0]
+textbackgroundcolor = [ 1, 1, 1, 0.4] # background color behind text.
+#textbackgroundcolor = None # set to None for no background - uncomment this line
+texttoleft = True # put text on left or right side of last point?
 
 
 
