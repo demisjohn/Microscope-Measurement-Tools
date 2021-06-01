@@ -100,11 +100,11 @@ def run():
     
     
     '''Draw text annotation'''
-    unit = imp.getCalibration().getUnit().encode('utf8')    # get the unit as UTF-8 (for \mu)
-    print "Draw_Meas(): Unit (raw) = `", unit,"`", type(unit), 
-    if unit[0] == u'\xc2': unit=unit[1:]  # strip weird char at start of \mu
-    
-    
+    unit = imp.getCalibration().getUnit().encode('utf-8')    # get the unit as UTF-8 (for \mu)
+    if len(unit) == 3 : unit=unit[1:] # strip weird char at start of \mu
+    print "Draw_Meas(): Unit (raw) = `", unit,"`", type(unit),
+
+
     # format of measurement text (eg. 3 decimal points):
     lenstr = "%0.3f" % roi.getLength() + " %s" % (unit)  # string to print as length
     print "DrawMeas(): Line length= %s" % lenstr
