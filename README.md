@@ -20,7 +20,7 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. Download the most recent [Microscope Tools Release from Github](https://github.com/elaniobro/Microscope-Measurement-Tools/releases)
     1. Extract/Unzip the file you downloaded from Github called: `Microscope-Measurment-tools`
     1. Move the folder into the FIJI plugins directory on your MacOS
-    ![](./pkg_content.png)
+    ![](https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/pkg_content.png)
 
 
 
@@ -30,11 +30,11 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. Open an image file taken at the desired maginification with a measurment marker. e.g. Open a photo of your micrometer slide taken with your 40x objective
 1. Zoom in on the photo to view the micrometer scale
 1. Draw a line `ROI` (Region Of Interest) along the calibration measurment feature. e.g. along the micrometer
-![](./roi.png)
+![](https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/roi.png)
 1. Navigate to FIJI and select `Analyze > Set Scale`
 1. The "Distance in Pixels" will already be set by your line ROI
 1. Type in the "Known Distance" from your measurement feature
-![](./set_scale.png) mine is 5μm
+![](https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/set_scale.png) mine is 5μm
 1. Record the resulting "Scale" value, e.g. 31.1716 pixel/unit, where unit is cm, mm, μm, etc..
 1. The "Scale" value will be used in your `Microscope_Calibrations_user_settings.py` file, so recored both a name and the scale value. e.g:
     ```
@@ -67,7 +67,7 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. Re-start the FIJI application
 1. Open an image
 1. Run `Analyze > Microscope Measurment Tools > Choose Microscope Calibration` and see a pop-up window that shows the new names and calibration values you set in `Microscope_Calibrations_user_settings.py`.
-![](./microscope_calibrations.png?raw=true)
+![](https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/microscope_calibrations.png?raw=true)
 
 ## 📈 Usage
 Three files are included, which will show up in your FIJI "Analyze" menu:
