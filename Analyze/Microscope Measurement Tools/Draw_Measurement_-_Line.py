@@ -23,7 +23,7 @@ import sys, os
 # add the path to this script, so we can find the user-settings
 libpth = os.path.split(  os.path.split( sys.path[0] )[0]  )[0]  # split-off the "/jars/lib" part
 #print  libpth
-libpth = os.path.join(libpth, 'plugins', 'Scripts', 'Analyze', 'Microscope Measurement Tools')
+libpth = os.path.join(libpth, 'plugins', 'Analyze', 'Microscope Measurement Tools')
 # hard-coded path, within the Fiji directory.
 
 try:
@@ -100,11 +100,11 @@ def run():
     
     
     '''Draw text annotation'''
-    unit = imp.getCalibration().getUnit().encode('utf8')    # get the unit as UTF-8 (for \mu)
-    print "Draw_Meas(): Unit (raw) = `", unit,"`", type(unit), 
-    if unit[0] == u'\xc2': unit=unit[1:]  # strip weird char at start of \mu
-    
-    
+    unit = imp.getCalibration().getUnit().encode('utf-8')    # get the unit as UTF-8 (for \mu)
+    if len(unit) == 3 : unit=unit[1:] # strip weird char at start of \mu
+    print "Draw_Meas(): Unit (raw) = `", unit,"`", type(unit),
+
+
     # format of measurement text (eg. 3 decimal points):
     lenstr = "%0.3f" % roi.getLength() + " %s" % (unit)  # string to print as length
     print "DrawMeas(): Line length= %s" % lenstr

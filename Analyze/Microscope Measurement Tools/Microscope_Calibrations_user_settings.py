@@ -29,25 +29,21 @@ or even do python math on the lists, such as repeating an item with `*`, or usin
 Microscope scaling/pixel-size calibration settings.
 """
 
-# The names of the microscope calibrations (shows up as the radio button/drop-down names):
+# The names of the microscope calibrations (shows up as the radio button names):
 names = [
-        'FluoroScope 5x', 
-        'FluoroScope 20x', 
-        'FluoroScope 50x', 
-        'FluoroScope 100x', 
-        'FluoroScope 150x',
-        'Olympus DUV 100x',
+        'Swift 4x',
+        'Swift 10x',
+        'Swift 40x',
+        'Swift 100x',
         ]
 
 
-# The 'pixel-per-unit' obtained from the "Set Scale..." dialog, for each named calibration above:
+# The 'pixel-per-unit' obtained from the "Set Scale..." Dialog, for each named calibration above:
 cals = [
-        0.9058,     # FluoroScope 5x to 150x
-        1.81,  
-        4.525,  
-        9.0667,  
-        13.5333,
-        54.6875,    # Olympus DUV
+        0.9058,
+        1.81,
+        12.5455,
+        25.4707,
         ]
 #   This is just 1/pixel_width, in case you were wondering.
 
@@ -85,13 +81,13 @@ Colors are specified as:
     opaque white is [1,1,1, 1]
 """
 
-linethickness = 5.0     # in pixels
-linecolor = [ 0, 0.7, 0,   1.0]     
-textsize = 30           # text height in pixels, I think
-textcolor =     [ 0, 0.8, 0,   1.0]
-textbackgroundcolor = [ 0, 0, 0,   0.6]       # background color behind text.
-#textbackgroundcolor = None      # set to None for no background - uncomment this line
-texttoleft = True      # put text on left or right side of last point?
+linethickness = 5.0 # in pixels
+linecolor = [ 0, 0.7, 0, 1.0]
+textsize = 50 # text height in pixels, I think
+textcolor = [ 1, 0, 1,   1.0]
+textbackgroundcolor = [ 1, 1, 1, 0.4] # background color behind text.
+#textbackgroundcolor = None # set to None for no background - uncomment this line
+texttoleft = True # put text on left or right side of last point?
 
 
 
