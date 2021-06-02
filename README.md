@@ -67,7 +67,7 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. Re-start the FIJI application
 1. Open an image
 1. Run `Analyze > Microscope Measurment Tools > Choose Microscope Calibration` and see a pop-up window that shows the new names and calibration values you set in `Microscope_Calibrations_user_settings.py`.
-![](microscope_calibrations.png)
+![](./microscope_calibrations.png?raw=true)
 
 ## 📈 Usage
 Three files are included, which will show up in your FIJI "Analyze" menu:
