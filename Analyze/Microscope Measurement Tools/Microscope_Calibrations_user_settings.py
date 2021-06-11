@@ -73,8 +73,8 @@ aspect_ratio =  [ 1.0    for x in cals ]   # list-comprehension with constant `1
 Settings for the script "Draw Measurement - Line
 
 Colors are specified as:
-    [R, G, B, transparency] values, from 0->1.0.  
-    Leave last value as 1 for completely opaque.  
+    [R, G, B, transparency] values, from 0->1.0.
+    Leave last value as 1 for completely opaque.
     Eg. opaque red would be [1,0,0, 1]
     and half-transparent blue would be [0,0,1, 0.5]
     opaque black is [0,0,0, 1]
@@ -84,7 +84,7 @@ Colors are specified as:
 linethickness = 5.0 # in pixels
 linecolor = [ 0, 0.7, 0, 1.0]
 textsize = 50 # text height in pixels, I think
-textcolor = [ 1, 0, 1,   1.0]
+textcolor = [ 0, 0, 0,   1.0]
 textbackgroundcolor = [ 1, 1, 1, 0.4] # background color behind text.
 #textbackgroundcolor = None # set to None for no background - uncomment this line
 texttoleft = True # put text on left or right side of last point?
@@ -106,13 +106,13 @@ Warn user if they erroneously run this file as a stand-alone plugin.
 def run():
     ''' If someone tries to run this file by itself, warn them of their error.  Unfortunately, since I was too lazy to make Microscope_Calibrations a full plugin (rather than a script), this accompanying settings file will show up in the Scripts menu.'''
     from ij.gui import GenericDialog
-    
+
     gd = GenericDialog("Microscope_Calibrations_user_settings.py")
     gd.addMessage("This file is only for setting the microscope calibrations and settings for the plugins 'Microscope Measurement Tools'.\nNothing is done when this settings file is run by itself.\nPlease open this file in a text editor instead, to edit the calibrations.\n  \n"  +  \
     "The file should reside in a path like the following\n"  +  \
     "Fiji.app/plugins/Scripts/Analyze/Microscope Measurement Tools/Microscope_Calibrations_user_settings.py\n  "  +  "\n" +  \
     "Changes to the settings file are not automatically picked up by Fiji.  The workaround is to\n  1) Quit Fiji.\n  2) Delete the '$py.class' file 'Microscope_Calibrations_user_settings$py.class'\n  3) Open Fiji.  Make sure the new settings show up in 'Choose Microscope Calibration'."  )
-    
+
     gd.showDialog()
 #end run()
 
