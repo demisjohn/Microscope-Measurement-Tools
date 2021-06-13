@@ -35,7 +35,7 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. The "Distance in Pixels" will already be set by your line ROI
 1. Type in the "Known Distance" from your measurement feature, mine is 5μm
 <img src="https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/set_scale.png?raw=true" width="600"/>
-1. Record the resulting "Scale" value, e.g. 31.1716 pixel/unit, where unit is cm, mm, μm, etc..
+1. Record the resulting "Scale" value, e.g. 31.1716 pixel/unit, where unit is cm, mm, μm, etc
 1. The "Scale" value will be used in your `Microscope_Calibrations_user_settings.py` file, so recored both a name and the scale value. e.g:
     ```
     Swift 350T 4x: 0.9058 px/μm
