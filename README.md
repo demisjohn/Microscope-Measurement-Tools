@@ -22,7 +22,10 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
     1. Move the folder into the FIJI plugins directory on your MacOS
     <img src="https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/pkg_contents.png?raw=true" width="600"/>
 
-
+**note** _MacOS may prevent you from opening an unverified application follow steps below to open_
+* In System Preferences, click `Security & Privacy > General`, then click the Lock button to allow you to make changes to your settings. You will need to provide your password, or use Touch ID, to unlock this.
+* The last app you attempted to open will be listed underneath your App Store security options. To launch the app (or rather, the DMG image file containing your app), click Open Anyway.
+* Once installed, if you have not previously opened the app, macOS will warn you that you are attempting to open an app from the internet. You’ll need to approve it for launch, so click the Open button to do this
 
 ## ⚖️ Calibration
 1. Take photos of a known measurment sample with your microscope, at each magnification you want to calibrate
