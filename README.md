@@ -12,8 +12,8 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 
 ![Annotation with Line][MMT-Annot-Line-Pic]
 
-[MMT-Choose-Cal-Pic]: http://fiji.sc/_images/c/cd/Microscope_Meas_Tools_-_Choose_Calibration_01.png
-[MMT-Annot-Line-Pic]: http://fiji.sc/_images/f/f4/Microscope_Meas_Tools_-_Draw_Meas_Line.png
+[MMT-Choose-Cal-Pic]: https://github.com/demisjohn/Microscope-Measurement-Tools/blob/master/img/microscope_calibrations.png
+[MMT-Annot-Line-Pic]: https://github.com/demisjohn/Microscope-Measurement-Tools/blob/master/img/ALN%20Cross%20-%20Measurement%20Example%2003.png
 
 ## 🏗️ Installation
 1. Download and install the [scientific image analysis program FIJI](http://fiji.sc)
