@@ -180,9 +180,9 @@ def uScopeCalDialog(cal):
         #addRadioButtonGroup(label, [String items],  rows,  columns,  String:defaultItem)
     #end if(cal>20)
     
-    gd.addCheckbox("Apply Scale to all open images?", False)
+    gd.addCheckbox("Set as global?", True)
     gd.addCheckbox("Add Scale Bar to this image?", False)
-    gd.addMessage("These calibrations can be altered by editing the file: \nFiji.app/plugins/Scripts/Plugins/Analyze/...\n\tMicroscope Measurement Tools/...\n\tMicroscope_Calibrations_user_settings.py")
+    gd.addMessage("These calibrations can be altered by editing the file: \nFiji.app/plugins/Analyze/...\n\tMicroscope Measurement Tools/...\n\tMicroscope_Calibrations_user_settings.py")
     
     gd.showDialog()
     
