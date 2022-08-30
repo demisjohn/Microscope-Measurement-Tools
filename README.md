@@ -1,5 +1,5 @@
 # Microscope-Measurement-Tools
-Microscope Measurement plugin for [FIJI](http://fiji.sc).
+Microscope Measurement plugin for [FIJI](http://fiji.sc)
 
 This set of [FIJI](http://fiji.sc) plugins provides a quick way to save distance/length calibrations for various microscopes/objectives in a simple text file, and then draw calibrated distances onto your images.
 

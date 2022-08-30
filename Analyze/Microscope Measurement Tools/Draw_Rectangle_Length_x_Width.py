@@ -7,6 +7,8 @@ by Demis D. John, Praevium Research Inc., 2015-05-25
 
 Draws the long dimension of a rectangle or rotated rectangle
 Draws extension lines defined by short side width of the rectangle
+
+This comment is just to test git
 '''
 
 from ij import IJ, ImagePlus, WindowManager 

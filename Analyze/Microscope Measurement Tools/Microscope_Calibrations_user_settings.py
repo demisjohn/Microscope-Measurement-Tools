@@ -6,7 +6,7 @@
 
 Make sure the lists `names`, `cals`, `units` and `aspect_ratio` all have the same number of items!
 
-After you edit this file, be sure to delete the corresponding *.pyclass file and restart Fiji for the settings to take effect.
+After you edit this file, be sure to delete the corresponding *.pyclass file and restart Fiji for the settings to take effect
 
 
 All of these lists are regular Python Lists, so define them however you prefer to define pythonic lists.  You can define them in-line like normal:
