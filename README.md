@@ -19,7 +19,7 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. Download and install the [scientific image analysis program FIJI](http://fiji.sc)
 1. Download the most recent [Microscope Tools Release from Github](https://github.com/Elaniobro/Microscope-Measurement-Tools/releases/tag/v2.4)
     1. Extract/Unzip the file you downloaded from Github called: `Microscope-Measurment-tools`
-    1. Move the folder contents (or just the plugins and macros directories) into the FIJI directory (Fiji.app). When prompted, choose to overwrite the StartupMacros.fifi.ijm
+    1. Move the folder contents (or just the plugins and macros directories) into the FIJI directory (Fiji.app). When prompted, choose to overwrite the file StartupMacros.fiji.ijm
     <img src="https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/pkg_contents.png?raw=true" width="600"/>
 
 **note** _MacOS may prevent you from opening an unverified application follow steps below to open_
@@ -73,12 +73,18 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 <img src="https://raw.githubusercontent.com/Elaniobro/Microscope-Measurement-Tools/master/img/scale_bar.png" width="600"/>
 
 ## 📈 Usage
-Three files are included, which will show up in your FIJI "Analyze" menu:
+Several files are included, which will show up at Plugins\Analyze\Microscope Measurement Tools. Shortcuts are also added to the tool bar.
 
 + **Choose_Microscope_Calibration.py**
-  + *Opens the "Choose Calibration" window, for setting the measurement scale to a preconfigured value.*
+  + *Opens the "Choose Calibration" window, for setting the measurement scale to a preconfigured value (hotkey F1)*
 + **Draw_Measurement_-_Line.py**
-  + *Converts a Line ROI into a drawn annotation with the measurement length indicated.*
+  + *Converts a Line ROI into a drawn annotation with the measurement length indicated*
++ **Draw_Rectangle_Long_Length.py**
+  + *Adds a drawn annotation of the length of a rectangle ROI along the long side (hotkey 'q')*
++ **Draw_Rectangle_Short_Length.py**
+  + *Adds a drawn annotation of the length of a rectangle ROI along the short side (hotkey 'g')*
++ **Draw_Rectangle_Length_x_Width.py**
+  + *Adds a drawn annotation of the length and width of a rectangle ROI (hotkey 'u')*
 
 + **Microscope_Calibrations_user_settings.py**
   + *User-editable Settings file that contains your pre-configured scale calibrations, along with settings for drawing annotations (background/text color etc.)*
