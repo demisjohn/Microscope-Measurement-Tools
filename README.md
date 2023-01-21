@@ -38,38 +38,38 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. Type in the "Known Distance" from your measurement feature <img src="https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/set_scale.png?raw=true" width="600"/>
 1. (Optional) Check 'Global' to apply this same scale to all images opened during this session
 1. (Optional) Add the scale as a preset that can be accessed at Plugins\Analyze\Microscope Measurement Tools\Choose Microscope Calibration (F1)
-  1. Record the resulting "Scale" value, e.g. 31.1716 pixel/unit, where unit is cm, mm, μm, etc
-  1. The "Scale" value will be used in your `Microscope_Calibrations_user_settings.py` file, so recored both a name and the scale value. e.g:
-      ```
-      Swift 350T 4x: 0.9058 px/μm
-      Swift 350T 10x: 1.81 px/μm
-      Swift 350T 40X: 12.5455 px/μm
-      Swift 350T 100X: 31.1716 px/μm
-      ```
-      **_these are just dummy values_**
-  1. Open up `/Fiji.app/plugins/Analyze/Microscope Measurement Tools/Microscope_Calibrations_user_settings.py` in your preferred text editor or python IDE
-  1. Edit the `names` list to reflect the name of each calibration on line 21:
+    1. Record the resulting "Scale" value, e.g. 31.1716 pixel/unit, where unit is cm, mm, μm, etc
+    1. The "Scale" value will be used in your `Microscope_Calibrations_user_settings.py` file, so recored both a name and the scale value. e.g:
         ```
-        names = [
-          'Swift 350T 4x',
-          'Swift 350T 10x',
-          'Swift 350T 40x',
-          'Swift 350T 100x',
-        ]
+        Swift 350T 4x: 0.9058 px/μm
+        Swift 350T 10x: 1.81 px/μm
+        Swift 350T 40X: 12.5455 px/μm
+        Swift 350T 100X: 31.1716 px/μm
         ```
-  1. Edit the `cals` list to reflect the corresponding `pixel-per-unit` calibration for each setting, from your previous records, on line 30:
-        ```
-        cals = [
-          0.9058,
-          1.81,
-          12.5455,
-          31.1716,
-        ]
-        ```
-  1. Save the file, and delete the file "Microscope_Calibrations_user_settings$py.pyclass" (if present)
-  1. Quit FIJI
-  1. Re-start the FIJI application. This will allow the application to register the changes you made to the plugin
-  **note** _for any subsquent changes, you will have to repeat the last three steps to see the changes_
+        **_these are just dummy values_**
+    1. Open up `/Fiji.app/plugins/Analyze/Microscope Measurement Tools/Microscope_Calibrations_user_settings.py` in your preferred text editor or python IDE
+    1. Edit the `names` list to reflect the name of each calibration on line 21:
+          ```
+          names = [
+            'Swift 350T 4x',
+            'Swift 350T 10x',
+            'Swift 350T 40x',
+            'Swift 350T 100x',
+          ]
+          ```
+    1. Edit the `cals` list to reflect the corresponding `pixel-per-unit` calibration for each setting, from your previous records, on line 30:
+          ```
+          cals = [
+            0.9058,
+            1.81,
+            12.5455,
+            31.1716,
+          ]
+          ```
+    1. Save the file, and delete the file "Microscope_Calibrations_user_settings$py.pyclass" (if present)
+    1. Quit FIJI
+    1. Re-start the FIJI application. This will allow the application to register the changes you made to the plugin
+    **note** _for any subsquent changes, you will have to repeat the last three steps to see the changes_
 
 ## 📈 Usage
 Several files are included, which will show up at Plugins\Analyze\Microscope Measurement Tools. Shortcuts are also added to the tool bar.
