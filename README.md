@@ -19,7 +19,7 @@ The "Draw Measurement" plugin then allows you to draw a line with the calibrated
 1. Download and install the [scientific image analysis program FIJI](http://fiji.sc)
 1. Download the most recent [Microscope Tools Release from Github](https://github.com/Elaniobro/Microscope-Measurement-Tools/releases/tag/v2.4)
     1. Extract/Unzip the file you downloaded from Github called: `Microscope-Measurment-tools`
-    1. Move the folder into the FIJI plugins directory on your MacOS
+    1. Move the folder into the FIJI directory (Fiji.app)
     <img src="https://github.com/Elaniobro/Microscope-Measurement-Tools/blob/master/img/pkg_contents.png?raw=true" width="600"/>
 
 **note** _MacOS may prevent you from opening an unverified application follow steps below to open_
