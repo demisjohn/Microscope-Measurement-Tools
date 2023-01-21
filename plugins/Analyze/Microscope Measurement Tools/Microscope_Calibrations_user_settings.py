@@ -6,7 +6,7 @@
 
 Make sure the lists `names`, `cals`, `units` and `aspect_ratio` all have the same number of items!
 
-After you edit this file, be sure to delete the corresponding *.pyclass file and restart Fiji for the settings to take effect.
+After you edit this file, be sure to delete the corresponding *.pyclass file and restart Fiji for the settings to take effect
 
 
 All of these lists are regular Python Lists, so define them however you prefer to define pythonic lists.  You can define them in-line like normal:
@@ -81,9 +81,9 @@ Colors are specified as:
     opaque white is [1,1,1, 1]
 """
 
-linethickness = 5.0 # in pixels
-linecolor = [ 0, 0.7, 0, 1.0]
-textsize = 50 # text height in pixels, I think
+linethickness = 2.0 # in pixels
+linecolor = [ 0, 1 , 0, 1.0]
+textsize = 18 # text height in pixels, I think
 textcolor = [ 0, 0, 0,   1.0]
 textbackgroundcolor = [ 1, 1, 1, 0.4] # background color behind text.
 #textbackgroundcolor = None # set to None for no background - uncomment this line
